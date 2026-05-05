@@ -1,0 +1,66 @@
+-- Use your database
+USE kccf_clinic_db;
+
+-- ==========================================
+-- 2. CREATE TABLES (Strictly INT AUTO_INCREMENT)
+-- ==========================================
+
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    role ENUM('Admin', 'Nurse') NOT NULL,
+    status ENUM('Active', 'Inactive') NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL, -- NOTE: Storing plain text here for testing. Hash with password_hash() in production!
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    gender ENUM('Male', 'Female') NOT NULL,
+    birthdate DATE NOT NULL,
+    course VARCHAR(50) NOT NULL,
+    year_level INT NOT NULL,
+    guardian_name VARCHAR(150) NOT NULL,
+    relationship VARCHAR(50) NOT NULL,
+    guardian_contact VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE medicines (
+    med_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    quantity INT NOT NULL DEFAULT 0,
+    status ENUM('In Stock', 'Low Stock', 'Critical', 'Out of Stock') NOT NULL,
+    expiration DATE NOT NULL,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE visits (
+    visit_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    complaint VARCHAR(255) NOT NULL,
+    temperature DECIMAL(4,1) NOT NULL,
+    height DECIMAL(5,1) DEFAULT NULL,
+    weight DECIMAL(5,1) DEFAULT NULL,
+    nurse_notes TEXT,
+    time_in TIME NOT NULL,
+    date_logged DATE NOT NULL DEFAULT (CURRENT_DATE),
+    status ENUM('Active', 'Completed') DEFAULT 'Active',
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE
+);
+
+CREATE TABLE health_records (
+    record_id INT AUTO_INCREMENT PRIMARY KEY,
+    visit_id INT NOT NULL,
+    student_id INT NOT NULL,
+    diagnosis VARCHAR(255) NOT NULL,
+    treatment TEXT NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (visit_id) REFERENCES visits(visit_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE
+);
+

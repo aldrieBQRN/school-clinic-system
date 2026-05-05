@@ -1,0 +1,229 @@
+-- ==========================================
+-- EXTENDED SEED DATA — SCHOOL CLINIC SYSTEM
+-- Includes: 25 students, 12 medicines, 60+ visits
+-- Date range: ~6 months of historical records
+-- ==========================================
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE health_records;
+TRUNCATE TABLE visits;
+TRUNCATE TABLE medicines;
+TRUNCATE TABLE students;
+TRUNCATE TABLE users;
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- ==========================================
+-- 1. USERS
+-- ==========================================
+INSERT INTO users (name, role, status, username, password) VALUES
+('John Aldrie Baquiran', 'Admin',  'Active', 'admin',       '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'),
+('Maria Reyes',          'Nurse',  'Active', 'nurse_reyes',  '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'),
+('Carla Mendoza',        'Nurse',  'Active', 'nurse_mendoza','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
+
+-- ==========================================
+-- 2. STUDENTS (25 students)
+-- ==========================================
+INSERT INTO students (first_name, last_name, gender, birthdate, course, year_level, guardian_name, relationship, guardian_contact) VALUES
+-- BSED Year 1
+('Liam',      'Bautista',    'Male',   '2013-03-10', 'BSED', 1, 'Rosa Bautista',     'Mother', '09171110001'),
+('Chloe',     'Garcia',      'Female', '2013-07-22', 'BSED', 1, 'Eduardo Garcia',    'Father', '09181110002'),
+('Ethan',     'Ramos',       'Male',   '2013-11-15', 'BSED', 1, 'Ligaya Ramos',      'Mother', '09191110003'),
+-- BSED Year 2
+('Sofia',     'Torres',      'Female', '2012-05-30', 'BSED', 2, 'Ben Torres',        'Father', '09201110004'),
+('James',     'Flores',      'Male',   '2012-09-18', 'BSED', 2, 'Nena Flores',       'Mother', '09211110005'),
+('Isabella',  'Cruz',        'Female', '2012-01-07', 'BSED', 2, 'Ricardo Cruz',      'Father', '09221110006'),
+-- BSED Year 3
+('Noah',      'Navarro',     'Male',   '2011-06-25', 'BSED', 3, 'Cecilia Navarro',   'Mother', '09231110007'),
+('Olivia',    'Domingo',     'Female', '2011-10-12', 'BSED', 3, 'Arnel Domingo',     'Father', '09241110008'),
+('Sophia',    'Reyes',       'Female', '2011-02-14', 'BSED', 3, 'Jose Reyes',        'Father', '09201234567'),
+('Lucas',     'Castillo',    'Male',   '2011-08-03', 'BSED', 3, 'Gloria Castillo',   'Mother', '09251110009'),
+-- BSED Year 4
+('Emma',      'Villanueva',  'Female', '2010-04-19', 'BSED', 4, 'Teresita Villanueva','Mother','09261110010'),
+('Ana',       'Santos',      'Female', '2010-08-22', 'BSED', 4, 'Pedro Santos',      'Father', '09181234567'),
+('Miguel',    'Aquino',      'Male',   '2010-12-30', 'BSED', 4, 'Carmen Aquino',     'Mother', '09211234567'),
+('Aiden',     'Salazar',     'Male',   '2010-02-11', 'BSED', 4, 'Dina Salazar',      'Mother', '09271110011'),
+('Mia',       'Pascual',     'Female', '2010-06-28', 'BSED', 4, 'Ronnie Pascual',    'Father', '09281110012'),
+-- BSIT Year 1
+('Juan',      'Dela Cruz',   'Male',   '2009-05-14', 'BSIT', 1, 'Maria Dela Cruz',   'Mother', '09171234567'),
+('Ella',      'Jimenez',     'Female', '2009-09-01', 'BSIT', 1, 'Victor Jimenez',    'Father', '09291110013'),
+-- BSIT Year 2
+('Oliver',    'Morales',     'Male',   '2009-01-20', 'BSIT', 2, 'Leonora Morales',   'Mother', '09301110014'),
+('Ava',       'Soriano',     'Female', '2009-11-30', 'BSIT', 2, 'Dante Soriano',     'Father', '09311110015'),
+('Luca',      'Fernandez',   'Male',   '2009-07-08', 'BSIT', 3, 'Maricel Fernandez', 'Mother', '09321110016'),
+-- BSCRIM Year 1
+('Mark',      'Villanueva',  'Male',   '2008-11-05', 'BSCRIM', 1, 'Lourdes Villanueva','Mother', '09191234567'),
+('Charlotte', 'dela Pena',   'Female', '2008-03-17', 'BSCRIM', 1, 'Nestor dela Pena',  'Father', '09331110017'),
+('Elijah',    'Reyes',       'Male',   '2008-07-29', 'BSCRIM', 2, 'Tessie Reyes',      'Mother', '09341110018'),
+-- BSBA Year 1
+('Amelia',    'Santos',      'Female', '2008-05-23', 'BSBA', 1, 'Ruben Santos',      'Father', '09351110019'),
+-- BSBA Year 2
+('Mateo',     'Ocampo',      'Male',   '2008-10-14', 'BSBA', 2, 'Alicia Ocampo',     'Mother', '09361110020');
+
+-- ==========================================
+-- 3. MEDICINES (12 items)
+-- ==========================================
+INSERT INTO medicines (name, category, quantity, status, expiration) VALUES
+('Paracetamol 500mg',      'Analgesic/Antipyretic',  150, 'In Stock',    '2027-10-15'),
+('Betadine 60ml',          'Antiseptic',               3, 'Critical',    '2028-01-20'),
+('Gauze Pads (2x2)',       'Wound Dressing',            8, 'Low Stock',   '2030-05-10'),
+('Cetirizine 10mg',        'Antihistamine',            45, 'In Stock',    '2027-08-05'),
+('Loperamide 2mg',         'Antidiarrheal',             0, 'Out of Stock','2026-12-01'),
+('Mefenamic Acid 500mg',   'NSAID / Pain Reliever',   80, 'In Stock',    '2027-05-10'),
+('Antacid (Kremil-S)',      'Antacid',                 60, 'In Stock',    '2027-03-22'),
+('Oral Rehydration Salts', 'Electrolyte Replenisher',  5, 'Low Stock',   '2028-06-30'),
+('Vitamin C 500mg',        'Supplement',              200, 'In Stock',    '2026-09-01'),
+('Povidone-Iodine Solution','Antiseptic',              12, 'In Stock',    '2027-11-15'),
+('Amoxicillin 500mg',      'Antibiotic',              20, 'Low Stock',   '2026-07-10'),
+('Adhesive Bandages (1")', 'Wound Dressing',           35, 'In Stock',    '2030-01-01');
+
+-- ==========================================
+-- 4. VISITS — 6 months of historical data
+-- ==========================================
+-- Note: student_id references the 25 students above (IDs 1–25 in insertion order)
+-- Complaints, temperatures, and notes reflect realistic school clinic scenarios.
+
+INSERT INTO visits (student_id, complaint, temperature, height, weight, nurse_notes, time_in, date_logged, status) VALUES
+
+-- === NOVEMBER (5 months ago) ===
+(3,  'Cough and colds',                36.8, 158.0, 48.0, 'Runny nose, mild congestion. Advised to rest.',                             '08:10:00', DATE_SUB(CURRENT_DATE, INTERVAL 155 DAY), 'Completed'),
+(7,  'Stomachache',                    37.2, 162.0, 55.0, 'Complained of abdominal cramps. No vomiting.',                              '09:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 154 DAY), 'Completed'),
+(12, 'Dizziness',                      36.6, 149.0, 44.0, 'Felt lightheaded after PE class. Given water and rest.',                    '10:45:00', DATE_SUB(CURRENT_DATE, INTERVAL 153 DAY), 'Completed'),
+(20, 'Headache',                       37.0, 172.0, 65.0, 'Stress-related. Heavy exam week.',                                          '13:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 152 DAY), 'Completed'),
+(5,  'Knee laceration',                36.9, 166.0, 60.0, 'Fell during recess. Wound cleaned and dressed.',                           '11:20:00', DATE_SUB(CURRENT_DATE, INTERVAL 151 DAY), 'Completed'),
+(15, 'Fever',                          38.7, 155.0, 48.5, 'High fever. Parent notified. Student sent home.',                           '08:50:00', DATE_SUB(CURRENT_DATE, INTERVAL 150 DAY), 'Completed'),
+(22, 'Menstrual cramps',               36.8, 163.0, 52.0, 'Dysmenorrhea. Given mefenamic acid and warm pad.',                         '10:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 149 DAY), 'Completed'),
+(8,  'Allergic reaction',              36.7, 156.0, 46.0, 'Rashes on arms after lunch. Possible food allergy.',                       '12:15:00', DATE_SUB(CURRENT_DATE, INTERVAL 148 DAY), 'Completed'),
+(18, 'Nosebleed',                      36.5, 168.0, 62.0, 'Epistaxis, mild. Applied pressure, resolved in 5 mins.',                   '14:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 147 DAY), 'Completed'),
+(1,  'Vomiting',                       37.8, 140.0, 38.0, 'Vomited once during class. Parent picked up.',                             '09:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 146 DAY), 'Completed'),
+
+-- === DECEMBER (4 months ago) ===
+(10, 'Cough and colds',                36.9, 164.0, 58.0, 'Persistent dry cough. Referred to physician.',                             '08:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 130 DAY), 'Completed'),
+(16, 'Fever',                          38.9, 165.0, 55.0, 'Fever since morning. Paracetamol given. Sent home.',                       '07:45:00', DATE_SUB(CURRENT_DATE, INTERVAL 129 DAY), 'Completed'),
+(4,  'Minor burn on hand',             36.7, 154.0, 45.0, 'Accidentally touched hot pot during TLE class.',                           '10:10:00', DATE_SUB(CURRENT_DATE, INTERVAL 128 DAY), 'Completed'),
+(11, 'Stomachache',                    37.1, 162.0, 53.0, 'Nausea after canteen meal. Rested for 30 minutes.',                        '11:40:00', DATE_SUB(CURRENT_DATE, INTERVAL 127 DAY), 'Completed'),
+(24, 'Headache',                       36.8, 160.0, 50.0, 'Tension headache. Paracetamol administered.',                              '13:10:00', DATE_SUB(CURRENT_DATE, INTERVAL 126 DAY), 'Completed'),
+(6,  'Sprained ankle',                 36.6, 157.0, 47.0, 'Twisted ankle during PE. RICE method applied.',                            '09:20:00', DATE_SUB(CURRENT_DATE, INTERVAL 125 DAY), 'Completed'),
+(21, 'Dizziness',                      37.3, 171.0, 66.0, 'Skipped breakfast. Provided crackers and juice.',                          '08:05:00', DATE_SUB(CURRENT_DATE, INTERVAL 124 DAY), 'Completed'),
+(13, 'Allergic rhinitis',              36.8, 160.0, 50.0, 'Sneezing, watery eyes. Cetirizine given.',                                '10:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 123 DAY), 'Completed'),
+(2,  'Asthma episode (mild)',          36.6, 145.0, 42.0, 'Mild wheeze. Student had inhaler. Monitored for 20 mins.',                 '14:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 122 DAY), 'Completed'),
+(17, 'Elbow abrasion',                 36.7, 160.0, 54.0, 'Scraped elbow from fall. Cleaned with povidone, bandaged.',                '11:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 121 DAY), 'Completed'),
+
+-- === JANUARY (3 months ago) ===
+(25, 'Fever and body aches',           38.6, 175.0, 70.0, 'Flu-like symptoms. Paracetamol given. Parent notified.',                   '08:20:00', DATE_SUB(CURRENT_DATE, INTERVAL 105 DAY), 'Completed'),
+(9,  'Stomachache',                    36.9, 155.0, 48.0, 'Complained of pain after eating. No diarrhea.',                            '09:50:00', DATE_SUB(CURRENT_DATE, INTERVAL 104 DAY), 'Completed'),
+(14, 'Headache',                       37.2, 167.0, 61.0, 'Reported headache and neck stiffness. Paracetamol given.',                 '10:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 103 DAY), 'Completed'),
+(3,  'Skin rash',                      36.7, 158.0, 48.0, 'Red patches on forearm. Possible contact dermatitis.',                     '11:15:00', DATE_SUB(CURRENT_DATE, INTERVAL 102 DAY), 'Completed'),
+(19, 'Vomiting and diarrhea',          37.6, 163.0, 52.0, 'GI symptoms. ORS given. Parent informed.',                                '08:45:00', DATE_SUB(CURRENT_DATE, INTERVAL 101 DAY), 'Completed'),
+(23, 'Dizziness',                      36.5, 172.0, 68.0, 'Orthostatic dizziness upon standing. Rest and hydration given.',           '13:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 100 DAY), 'Completed'),
+(7,  'Insect bite',                    36.8, 162.0, 55.0, 'Multiple bites on legs. Cetirizine given.',                                '09:15:00', DATE_SUB(CURRENT_DATE, INTERVAL 99 DAY),  'Completed'),
+(16, 'Epistaxis',                      36.6, 165.0, 55.0, 'Nosebleed during assembly. Resolved quickly.',                             '07:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 98 DAY),  'Completed'),
+(5,  'Cough and fever',                38.2, 166.0, 60.0, 'Productive cough with low-grade fever.',                                   '10:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 97 DAY),  'Completed'),
+(11, 'Finger laceration',              36.9, 162.0, 53.0, 'Cut from arts and crafts activity. Wound dressed.',                        '14:20:00', DATE_SUB(CURRENT_DATE, INTERVAL 96 DAY),  'Completed'),
+
+-- === FEBRUARY (2 months ago) ===
+(1,  'Headache',                       37.0, 140.0, 38.0, 'Reported after lunch. Rested and returned to class.',                      '12:05:00', DATE_SUB(CURRENT_DATE, INTERVAL 80 DAY),  'Completed'),
+(20, 'Stomachache',                    37.3, 172.0, 65.0, 'Complained of cramps. Antacid given.',                                     '09:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 79 DAY),  'Completed'),
+(8,  'Fever',                          38.4, 156.0, 46.0, 'Paracetamol administered. Monitored for 1 hour. Sent home.',               '08:15:00', DATE_SUB(CURRENT_DATE, INTERVAL 78 DAY),  'Completed'),
+(22, 'Dizziness',                      36.6, 163.0, 52.0, 'Felt faint after standing up. Juice and crackers given.',                  '11:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 77 DAY),  'Completed'),
+(4,  'Toothache',                      36.8, 154.0, 45.0, 'Complained of molar pain. Referred to dentist.',                           '09:45:00', DATE_SUB(CURRENT_DATE, INTERVAL 76 DAY),  'Completed'),
+(15, 'Allergic reaction (hives)',      36.7, 155.0, 48.5, 'Urticaria on neck and chest after PE. Cetirizine given.',                  '13:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 75 DAY),  'Completed'),
+(10, 'Back pain',                      37.0, 164.0, 58.0, 'Muscular back pain from heavy bag. Advised to rest.',                     '10:10:00', DATE_SUB(CURRENT_DATE, INTERVAL 74 DAY),  'Completed'),
+(24, 'Menstrual cramps',               36.8, 160.0, 50.0, 'Dysmenorrhea. Mefenamic acid and warm compress applied.',                  '08:50:00', DATE_SUB(CURRENT_DATE, INTERVAL 73 DAY),  'Completed'),
+(18, 'Eye irritation',                 36.6, 168.0, 62.0, 'Red and watery eyes. Rinsed with sterile saline.',                        '11:40:00', DATE_SUB(CURRENT_DATE, INTERVAL 72 DAY),  'Completed'),
+(6,  'Shin laceration',                36.7, 157.0, 47.0, 'Cut from metal edge in workshop. Betadine and gauze applied.',             '14:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 71 DAY),  'Completed'),
+
+-- === MARCH (1 month ago) ===
+(21, 'Fever',                          38.8, 171.0, 66.0, 'High fever. Paracetamol given. Parent notified and picked up.',             '07:55:00', DATE_SUB(CURRENT_DATE, INTERVAL 55 DAY),  'Completed'),
+(13, 'Diarrhea',                       37.4, 160.0, 50.0, 'Multiple loose stools. ORS administered. Rest given.',                     '09:20:00', DATE_SUB(CURRENT_DATE, INTERVAL 54 DAY),  'Completed'),
+(2,  'Headache',                       36.9, 145.0, 42.0, 'Migraine-type headache. Paracetamol given and lights dimmed.',             '10:35:00', DATE_SUB(CURRENT_DATE, INTERVAL 53 DAY),  'Completed'),
+(17, 'Cough and colds',                36.7, 160.0, 54.0, 'Runny nose and mild cough. Sent back after rest.',                         '11:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 52 DAY),  'Completed'),
+(25, 'Ankle sprain',                   36.6, 175.0, 70.0, 'Rolled ankle during basketball. Ice pack and rest applied.',               '13:15:00', DATE_SUB(CURRENT_DATE, INTERVAL 51 DAY),  'Completed'),
+(9,  'Nosebleed',                      36.5, 155.0, 48.0, 'Epistaxis. Resolved in 5 mins with pressure.',                             '09:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 50 DAY),  'Completed'),
+(14, 'Vomiting',                       37.2, 167.0, 61.0, 'Vomited once. Pale and weak. Parent picked up.',                           '10:40:00', DATE_SUB(CURRENT_DATE, INTERVAL 49 DAY),  'Completed'),
+(12, 'Allergic rhinitis',              36.8, 149.0, 44.0, 'Sneezing and nasal congestion. Cetirizine administered.',                  '08:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 48 DAY),  'Completed'),
+(19, 'Finger sprain',                  36.7, 163.0, 52.0, 'Jammed finger during volleyball. Ice applied.',                            '14:10:00', DATE_SUB(CURRENT_DATE, INTERVAL 47 DAY),  'Completed'),
+(23, 'Stomachache',                    37.1, 172.0, 68.0, 'Cramping after lunch. Antacid given. Returned to class.',                  '12:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 46 DAY),  'Completed'),
+
+-- === MAY — Recent (past 4 days) ===
+(16, 'Fever and chills',               38.5, 165.0, 55.0, 'Patient looks pale and lethargic.',                                        '08:30:00', CURRENT_DATE,                              'Completed'),
+(12, 'Stomach Ache',                   37.1, 150.0, 45.0, 'Complained of pain after eating breakfast.',                              '10:15:00', CURRENT_DATE,                              'Completed'),
+(21, 'Minor abrasion on knee',         36.8, 170.0, 60.0, 'Fell during PE class.',                                                    '13:45:00', DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY),   'Completed'),
+(9,  'Headache',                       37.5, 155.0, 48.0, 'Slept late due to projects.',                                              '09:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY),   'Completed'),
+(13, 'Allergic reaction / Sneezing',   36.9, 160.0, 50.0, 'Exposure to dust during classroom cleaning.',                             '14:20:00', CURRENT_DATE,                              'Active'),
+(3,  'Dizziness',                      36.6, 158.0, 48.0, 'Skipped breakfast, felt faint during flag ceremony.',                      '07:40:00', DATE_SUB(CURRENT_DATE, INTERVAL 2 DAY),   'Completed'),
+(7,  'Fever',                          38.3, 162.0, 55.0, 'Paracetamol given. Monitored 45 mins. Sent home.',                         '09:10:00', DATE_SUB(CURRENT_DATE, INTERVAL 2 DAY),   'Completed'),
+(22, 'Menstrual cramps',               36.8, 163.0, 52.0, 'Mefenamic acid administered.',                                             '10:00:00', DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY),   'Completed'),
+(25, 'Headache',                       37.1, 175.0, 70.0, 'Tension headache from review sessions.',                                   '13:30:00', DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY),   'Completed'),
+(4,  'Knee abrasion',                  36.7, 154.0, 45.0, 'Scraped knee. Povidone applied, bandaged.',                                '11:55:00', DATE_SUB(CURRENT_DATE, INTERVAL 4 DAY),   'Completed');
+
+-- ==========================================
+-- 5. HEALTH RECORDS
+-- ==========================================
+-- Covers all 'Completed' visits (visit_id follows insertion order above)
+
+INSERT INTO health_records (visit_id, student_id, diagnosis, treatment, date) VALUES
+-- November
+(1,  3,  'Upper Respiratory Infection',     'Rest advised. Vitamin C given.',                                                   CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 155 DAY), ' 08:25:00')),
+(2,  7,  'Abdominal cramps',                'Antacid given. Rested 30 mins.',                                                   CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 154 DAY), ' 09:45:00')),
+(3,  12, 'Orthostatic hypotension (mild)',  'Hydration advised. Rested. Returned to class.',                                    CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 153 DAY), ' 11:00:00')),
+(4,  20, 'Tension headache',                'Paracetamol 500mg administered. Brief rest.',                                      CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 152 DAY), ' 13:15:00')),
+(5,  5,  'Superficial knee laceration',     'Wound cleaned with povidone-iodine, gauze dressing applied.',                     CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 151 DAY), ' 11:35:00')),
+(6,  15, 'Viral fever',                     'Paracetamol given. Parent notified. Student sent home.',                           CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 150 DAY), ' 09:05:00')),
+(7,  22, 'Dysmenorrhea',                    'Mefenamic acid 500mg given. Warm compress applied. Rested 40 mins.',               CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 149 DAY), ' 10:15:00')),
+(8,  8,  'Urticaria (allergic)',             'Cetirizine 10mg administered. Parent notified. Monitored.',                       CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 148 DAY), ' 12:30:00')),
+(9,  18, 'Epistaxis',                       'Anterior nasal pressure applied. Bleeding stopped in 5 mins.',                    CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 147 DAY), ' 14:45:00')),
+(10, 1,  'Acute vomiting',                  'Rested. Parent picked student up. Referred to physician.',                        CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 146 DAY), ' 09:15:00')),
+-- December
+(11, 10, 'Upper Respiratory Infection',     'Vitamin C given. Physician referral letter issued.',                               CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 130 DAY), ' 08:45:00')),
+(12, 16, 'High-grade fever',                'Paracetamol 500mg administered. Student sent home.',                               CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 129 DAY), ' 08:00:00')),
+(13, 4,  'First-degree burn (minor)',        'Cooled with running water. Antiseptic cream applied.',                             CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 128 DAY), ' 10:25:00')),
+(14, 11, 'Dyspepsia',                       'Antacid (Kremil-S) given. Rested 30 minutes.',                                    CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 127 DAY), ' 11:55:00')),
+(15, 24, 'Tension headache',                'Paracetamol administered. Brief rest.',                                            CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 126 DAY), ' 13:25:00')),
+(16, 6,  'Ankle sprain (mild)',             'RICE method applied. Advised to limit PE activities.',                             CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 125 DAY), ' 09:35:00')),
+(17, 21, 'Hypoglycemia (mild)',             'Juice and crackers provided. Student rested and recovered.',                       CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 124 DAY), ' 08:20:00')),
+(18, 13, 'Allergic rhinitis',               'Cetirizine 10mg given. Advised to avoid dust triggers.',                          CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 123 DAY), ' 10:45:00')),
+(19, 2,  'Mild asthma exacerbation',        'Student used personal inhaler. Monitored. No escalation.',                        CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 122 DAY), ' 14:15:00')),
+(20, 17, 'Superficial abrasion (elbow)',    'Cleaned with povidone-iodine. Adhesive bandage applied.',                         CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 121 DAY), ' 11:15:00')),
+-- January
+(21, 25, 'Influenza-like illness',          'Paracetamol given. Parent informed. Advised rest at home.',                       CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 105 DAY), ' 08:35:00')),
+(22, 9,  'Functional abdominal pain',       'Antacid given. Rested. Returned to class.',                                       CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 104 DAY), ' 10:05:00')),
+(23, 14, 'Tension headache',                'Paracetamol 500mg. Neck stretch exercise advised.',                                CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 103 DAY), ' 10:45:00')),
+(24, 3,  'Contact dermatitis (mild)',       'Skin rinsed. Antihistamine cream applied. Physician referral.',                   CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 102 DAY), ' 11:30:00')),
+(25, 19, 'Acute gastroenteritis',           'ORS administered. Rest. Parent informed.',                                         CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 101 DAY), ' 09:00:00')),
+(26, 23, 'Postural dizziness',              'Hydration encouraged. Student rested 20 mins.',                                   CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 100 DAY), ' 13:15:00')),
+(27, 7,  'Insect bite (multiple)',          'Cetirizine 10mg given. Calamine lotion applied.',                                  CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 99 DAY),  ' 09:30:00')),
+(28, 16, 'Epistaxis',                       'Nasal pressure applied. Resolved without further intervention.',                  CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 98 DAY),  ' 07:45:00')),
+(29, 5,  'Acute bronchitis (suspected)',    'Paracetamol given. Referral letter to physician issued.',                          CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 97 DAY),  ' 10:15:00')),
+(30, 11, 'Finger laceration (superficial)', 'Wound cleaned. Povidone-iodine applied. Bandaged.',                              CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 96 DAY),  ' 14:35:00')),
+-- February
+(31, 1,  'Tension headache',                'Paracetamol given. Rested briefly. Returned to class.',                           CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 80 DAY),  ' 12:20:00')),
+(32, 20, 'Dyspepsia',                       'Antacid (Kremil-S) given. Advised not to skip meals.',                            CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 79 DAY),  ' 09:45:00')),
+(33, 8,  'Viral fever',                     'Paracetamol administered. Monitored 1 hr. Sent home.',                            CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 78 DAY),  ' 08:30:00')),
+(34, 22, 'Vasovagal episode (mild)',        'Juice given. Elevated legs. Recovered in 10 mins.',                               CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 77 DAY),  ' 11:15:00')),
+(35, 4,  'Dental pain',                     'Paracetamol given. Referred to school dentist.',                                  CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 76 DAY),  ' 10:00:00')),
+(36, 15, 'Urticaria',                       'Cetirizine 10mg administered. Parent notified.',                                  CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 75 DAY),  ' 13:45:00')),
+(37, 10, 'Musculoskeletal back pain',       'Advised to avoid heavy bag. Rest and stretches recommended.',                     CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 74 DAY),  ' 10:25:00')),
+(38, 24, 'Dysmenorrhea',                    'Mefenamic acid 500mg. Warm compress. Rested 45 mins.',                            CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 73 DAY),  ' 09:05:00')),
+(39, 18, 'Conjunctival irritation',         'Eyes rinsed with sterile saline. Referred to ophthalmologist.',                   CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 72 DAY),  ' 11:55:00')),
+(40, 6,  'Shin laceration',                 'Wound cleaned with Betadine. Gauze dressing applied.',                            CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 71 DAY),  ' 14:15:00')),
+-- March
+(41, 21, 'High-grade fever',                'Paracetamol given. Parent notified. Sent home.',                                  CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 55 DAY),  ' 08:10:00')),
+(42, 13, 'Acute diarrhea',                  'ORS administered. Rest. Parent informed.',                                         CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 54 DAY),  ' 09:35:00')),
+(43, 2,  'Migraine',                        'Paracetamol given. Rested in dark room. Returned to class.',                     CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 53 DAY),  ' 10:50:00')),
+(44, 17, 'Upper Respiratory Infection',     'Vitamin C given. Advised rest and fluids.',                                       CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 52 DAY),  ' 11:15:00')),
+(45, 25, 'Ankle sprain',                    'RICE. Advised to avoid basketball for 1 week.',                                   CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 51 DAY),  ' 13:30:00')),
+(46, 9,  'Epistaxis',                       'Nasal pressure. Bleeding resolved in 5 mins.',                                    CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 50 DAY),  ' 09:15:00')),
+(47, 14, 'Acute nausea and vomiting',       'Rested. Parent picked up. Advised medical consult.',                              CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 49 DAY),  ' 10:55:00')),
+(48, 12, 'Allergic rhinitis',               'Cetirizine 10mg given. Dust allergy noted in record.',                            CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 48 DAY),  ' 08:45:00')),
+(49, 19, 'Finger sprain',                   'Ice pack applied. Buddy-taping done. Advised PE exemption.',                     CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 47 DAY),  ' 14:25:00')),
+(50, 23, 'Dyspepsia',                       'Antacid given. Student returned to class.',                                       CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 46 DAY),  ' 12:45:00')),
+-- === MAY (recent) ===
+(51, 16, 'Suspected Viral Infection',       'Paracetamol 500mg given. Parent notified.',                                       CONCAT(CURRENT_DATE, ' 08:45:00')),
+(52, 12, 'Dyspepsia / Indigestion',         'Antacid given. Rested 30 mins. Returned to class.',                              CONCAT(CURRENT_DATE, ' 10:30:00')),
+(53, 21, 'Superficial Wound',               'Wound cleaned with Betadine, gauze applied.',                                    CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY),   ' 14:00:00')),
+(54, 9,  'Tension Headache',                'Paracetamol 500mg. Sent back after 20 mins.',                                    CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY),   ' 09:20:00')),
+(56, 3,  'Hypoglycemia (mild)',             'Juice and crackers. Fully recovered after 15 mins.',                              CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 2 DAY),   ' 07:55:00')),
+(57, 7,  'Viral fever',                     'Paracetamol given. Monitored 45 mins. Sent home.',                               CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 2 DAY),   ' 09:25:00')),
+(58, 22, 'Dysmenorrhea',                    'Mefenamic acid 500mg. Warm compress. Returned to class.',                        CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY),   ' 10:15:00')),
+(59, 25, 'Tension Headache',                'Paracetamol 500mg. Advised to manage study schedule.',                            CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY),   ' 13:45:00')),
+(60, 4,  'Superficial Abrasion (knee)',     'Cleaned with povidone-iodine. Adhesive bandage applied.',                        CONCAT(DATE_SUB(CURRENT_DATE, INTERVAL 4 DAY),   ' 12:10:00'));

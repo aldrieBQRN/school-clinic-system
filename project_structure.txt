@@ -1,0 +1,65 @@
+school-clinic-system/
+├── index.php                            # Login page - Entry point for the application
+├── logout.php                           # Logout handler - Terminates user session
+├── database_structure.txt               # Database schema documentation
+├── seed.txt                             # Initial database seed data for testing
+│
+├── admin/                               # Admin panel pages (role-based access)
+│   ├── dashboard.php                    # Admin dashboard with stats and quick links
+│   ├── health_records.php               # View/search student health records
+│   ├── inventory.php                    # Manage medicines and stock levels
+│   ├── manage_users.php                 # Add/edit/delete admin and nurse users
+│   ├── reports.php                      # Generate clinic reports and analytics
+│   ├── student_records.php              # Manage student database and profiles
+│   └── visit_log.php                    # Archive of completed patient visits
+│
+├── assets/                              # Static resources
+│   ├── css/
+│   │   └── style.css                    # Main stylesheet for entire application
+│   ├── images/
+│   │   └── logo.jpg                     # KCCF school logo
+│   └── js/
+│       └── script.js                    # JavaScript utilities + mobile responsiveness
+│
+├── backend/                             # Server-side processing and APIs
+│   ├── auth_login.php                   # Authentication and login verification
+│   ├── admin/                           # Admin-specific backend handlers
+│   │   ├── process_add_user.php         # Add new admin/nurse user
+│   │   └── process_edit_user.php        # Edit admin/nurse user details
+│   └── nurse/                           # Nurse-specific backend handlers
+│       ├── process_add_medicine.php     # Add new medicine to inventory
+│       ├── process_delete_health_record.php  # Remove health record
+│       ├── process_delete_medicine.php  # Delete medicine from inventory
+│       ├── process_delete_student.php   # Remove student from database
+│       ├── process_delete_visit.php     # Delete visit record
+│       ├── process_edit_health_record.php   # Update health record
+│       ├── process_edit_student.php     # Edit student information
+│       ├── process_edit_visit.php       # Edit visit details
+│       ├── process_finalize_visit.php   # Complete and record patient visit
+│       ├── process_log_visit.php        # Create initial visit entry
+│       ├── process_register_student.php # Register new student in system
+│       ├── process_restock_medicine.php # Update medicine quantity
+│       └── process_update_medicine.php  # Modify medicine details
+│
+├── config/                              # Configuration files
+│   ├── auth_check.php                   # Session verification and access control
+│   ├── db_connect.php                   # Database connection setup (PDO)
+│   └── medicine_helpers.php             # Helper functions for medicine operations
+│
+├── includes/                            # Reusable page components
+│   ├── admin_header.php                 # Admin navigation header with user menu
+│   ├── admin_sidebar.php                # Admin sidebar navigation menu
+│   ├── footer.php                       # Common footer with copyrights
+│   ├── nurse_header.php                 # Nurse navigation header with notifications
+│   └── nurse_sidebar.php                # Nurse sidebar navigation menu
+│
+└── nurse/                               # Nurse panel pages (role-based access)
+    ├── dashboard.php                    # Nurse dashboard with active queue and alerts
+    ├── health_records.php               # Search and view student health history
+    ├── inventory.php                    # Check medicine availability and alerts
+    ├── student_records.php              # Browse and manage student profiles
+    ├── visit_log.php                    # View completed visit records
+    ├── visits.php                       # Active patient queue and triage
+    └── forms/
+        ├── finalize_visit.php           # Form to complete patient visit and diagnosis
+        └── register_student.php         # Form to add new student to system
