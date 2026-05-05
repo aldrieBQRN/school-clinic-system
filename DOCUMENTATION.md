@@ -169,7 +169,7 @@
 
   - Open PowerShell (or Command Prompt) and run:
 
-    `git clone https://github.com/<owner>/<repo>.git "C:\xampp\htdocs\school-clinic-system"`
+    `git clone https://github.com/aldrieBQRN/school-clinic-system.git "C:\xampp\htdocs\school-clinic-system"`
 
   - This clones the repository directly into the webroot so files are immediately accessible at `http://localhost/school-clinic-system/`.
 
@@ -186,22 +186,6 @@
   - `C:\xampp\htdocs\school-clinic-system\config\` ← Configuration
 
 ### Step 4: Configuration
-
-### Repository (GitHub)
-
-- Clone the project:
-
-  `git clone https://github.com/<owner>/<repo>.git`
-
-- Or use SSH:
-
-  `git clone git@github.com:<owner>/<repo>.git`
-
-- After cloning, place the project under your webroot (e.g. `C:\xampp\htdocs\school-clinic-system`) or configure a virtual host.
-
-- Update database settings in `config/db_connect.php` and import `database_structure.txt` / `seed.txt` as described above.
-
-- Recommended: add a `.gitignore` (if not present) to exclude sensitive files (local config, DB dumps) and a `README.md` with quick start steps.
 
 1. **Edit Database Connection:**
    - Open: `config/db_connect.php`
