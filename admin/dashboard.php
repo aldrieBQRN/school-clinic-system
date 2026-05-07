@@ -29,7 +29,7 @@ try {
         JOIN students s ON v.student_id = s.student_id
         LEFT JOIN health_records hr ON v.visit_id = hr.visit_id
         ORDER BY v.date_logged DESC, v.time_in DESC
-        LIMIT 5
+            LIMIT 8
     ");
     $recent_activities = $stmt->fetchAll();
 
@@ -525,7 +525,7 @@ try {
                         <div class="stat-card-header">
                             <div class="stat-icon-wrap" style="background: #FEECEC; color: #EF4444;"><i class="ph ph-warning-circle"></i></div>
                             <?php if ($critical_count > 0): ?>
-                                <span class="stat-trend trend-down"><i class="ph ph-trend-down"></i> Action Req</span>
+                                <span class="stat-trend trend-down"><i class="ph ph-trend-down"></i> Action Required</span>
                             <?php endif; ?>
                         </div>
                         <p class="stat-label">Needs Attention</p>

@@ -49,7 +49,6 @@ school-clinic-system/
 ├── includes/                            # Reusable page components
 │   ├── admin_header.php                 # Admin navigation header with user menu
 │   ├── admin_sidebar.php                # Admin sidebar navigation menu
-│   ├── footer.php                       # Common footer with copyrights
 │   ├── nurse_header.php                 # Nurse navigation header with notifications
 │   └── nurse_sidebar.php                # Nurse sidebar navigation menu
 │

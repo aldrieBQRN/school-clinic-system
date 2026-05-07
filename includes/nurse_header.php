@@ -1,5 +1,38 @@
 <?php
-// Securely fetch notifications if the database connection exists
+// 1. Dynamically set breadcrumbs based on the current page
+$current_page = basename($_SERVER['PHP_SELF']);
+
+if (isset($breadcrumb_parent, $breadcrumb_child)) {
+    $parent = $breadcrumb_parent;
+    $child = $breadcrumb_child;
+} else {
+    $form_page_aliases = [
+        'register_student.php' => 'student_records.php',
+        'finalize_visit.php' => 'visits.php',
+    ];
+
+    if (isset($form_page_aliases[$current_page])) {
+        $current_page = $form_page_aliases[$current_page];
+    }
+
+    $breadcrumbs = [
+        'dashboard.php' => ['Overview', 'Dashboard'],
+        'visits.php' => ['Triage & Queue', 'Active Visits'],
+        'student_records.php' => ['Patient Database', 'Student Records'],
+        'health_records.php' => ['Patient Database', 'Health Records'],
+        'visit_log.php' => ['Archive', 'Triage Visit Log'],
+        'inventory.php' => ['Clinic Operations', 'Inventory']
+    ];
+
+    $parent = 'Menu';
+    $child = 'Page';
+    if (isset($breadcrumbs[$current_page])) {
+        $parent = $breadcrumbs[$current_page][0];
+        $child = $breadcrumbs[$current_page][1];
+    }
+}
+
+// 2. Securely fetch notifications
 $active_queue_notifs = [];
 $critical_stock_notifs = [];
 $total_notifs = 0;
@@ -71,7 +104,8 @@ $page_prefix = isset($is_subfolder) && $is_subfolder ? '../' : '';
     .notif-dropdown {
         position: absolute;
         top: 100%;
-        right: -10px;
+        right: 0;
+        /* keep dropdown aligned inside header to avoid viewport overflow */
         margin-top: 15px;
         width: 320px;
         background: var(--bg-card);
@@ -79,7 +113,6 @@ $page_prefix = isset($is_subfolder) && $is_subfolder ? '../' : '';
         border-radius: 12px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         display: none;
-        /* Hidden by default */
         flex-direction: column;
         z-index: 1000;
         overflow: hidden;
@@ -171,21 +204,26 @@ $page_prefix = isset($is_subfolder) && $is_subfolder ? '../' : '';
     }
 </style>
 
-<header class="main-header">
+<header class="main-header print-hide">
     <div class="header-left">
-        <div class="header-search">
-            <span class="search-icon"><i class="ph ph-magnifying-glass"></i></span>
-            <input type="text" placeholder="Search records, students..." class="search-input">
+        <button class="mobile-menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('active'); document.getElementById('sidebarOverlay').classList.toggle('active');">
+            <i class="ph ph-list"></i>
+        </button>
+
+        <div class="header-breadcrumb hide-mobile">
+            <span class="bc-parent"><?php echo $parent; ?></span>
+            <i class="ph ph-caret-right"></i>
+            <span class="bc-active"><?php echo $child; ?></span>
         </div>
     </div>
 
     <div class="header-right">
-        <div class="header-date">
-            <span class="date-icon"><i class="ph ph-calendar-blank"></i></span>
-            <?php echo date('F d, Y'); ?>
+        <div class="header-date hide-mobile">
+            <i class="ph ph-clock date-icon"></i>
+            <span id="liveDateTime"><?php echo date("M d, Y &bull; h:i A"); ?></span>
         </div>
 
-        <div class="header-divider"></div>
+        <div class="header-divider hide-mobile"></div>
 
         <div class="notif-wrapper">
             <button class="icon-btn" id="notifButton" title="Notifications" aria-label="Notifications">
@@ -236,16 +274,14 @@ $page_prefix = isset($is_subfolder) && $is_subfolder ? '../' : '';
             </div>
         </div>
 
-        <button class="icon-btn" title="Settings" aria-label="Settings">
-            <i class="ph ph-gear"></i>
-        </button>
-
-        <div class="header-divider"></div>
+        <div class="header-divider hide-mobile"></div>
 
         <div class="user-pill">
-            <div class="user-avatar" style="background: var(--brand-primary); color: white;">CN</div>
-            <div class="user-meta">
-                <span class="user-name">Clinic Nurse</span>
+            <div class="user-avatar" style="background: var(--brand-primary); color: white;">
+                <?php echo isset($_SESSION['name']) ? strtoupper(substr($_SESSION['name'], 0, 1)) : 'N'; ?>
+            </div>
+            <div class="user-meta hide-mobile">
+                <span class="user-name"><?php echo htmlspecialchars($_SESSION['name'] ?? 'Clinic Nurse'); ?></span>
                 <span class="user-status">On Duty</span>
             </div>
         </div>
@@ -253,6 +289,24 @@ $page_prefix = isset($is_subfolder) && $is_subfolder ? '../' : '';
 </header>
 
 <script>
+    // Live Clock Logic
+    function updateLiveTime() {
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        });
+        const timeStr = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        const timeEl = document.getElementById('liveDateTime');
+        if (timeEl) timeEl.textContent = `${dateStr} • ${timeStr}`;
+    }
+    setInterval(updateLiveTime, 1000);
+    updateLiveTime();
+
     // Toggle Notification Dropdown Logic
     document.addEventListener("DOMContentLoaded", function() {
         const notifBtn = document.getElementById('notifButton');

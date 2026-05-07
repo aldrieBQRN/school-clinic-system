@@ -122,9 +122,14 @@ if (isset($conn)) {
         document.addEventListener("DOMContentLoaded", function() {
             let currentPage = window.location.pathname.split("/").pop();
 
-            // Keep Consultation active when viewing finalize_visit.
-            if (currentPage === "finalize_visit.php") {
-                currentPage = "visits.php";
+            // Keep the parent menu active while on subfolder form pages.
+            const formPageAliases = {
+                "register_student.php": "student_records.php",
+                "finalize_visit.php": "visits.php"
+            };
+
+            if (formPageAliases[currentPage]) {
+                currentPage = formPageAliases[currentPage];
             }
 
             const navLinks = document.querySelectorAll(".nav-link");

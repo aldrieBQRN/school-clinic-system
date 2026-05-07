@@ -2,6 +2,26 @@
 // Adjust paths if included from a subfolder
 $page_prefix = isset($is_subfolder) && $is_subfolder ? '../' : '';
 
+// 1. Dynamically set breadcrumbs based on the current page
+$current_page = basename($_SERVER['PHP_SELF']);
+$breadcrumbs = [
+    'dashboard.php' => ['Overview', 'Dashboard'],
+    'manage_users.php' => ['System Management', 'Staff Accounts'],
+    'student_records.php' => ['Patient Database', 'Student Records'],
+    'health_records.php' => ['Patient Database', 'Health Records'],
+    'visit_log.php' => ['Clinic Operations', 'Visit Log'],
+    'inventory.php' => ['Clinic Operations', 'Inventory'],
+    'reports.php' => ['Analytics', 'Executive Summary'],
+];
+
+$parent = 'Menu';
+$child = 'Page';
+if (isset($breadcrumbs[$current_page])) {
+    $parent = $breadcrumbs[$current_page][0];
+    $child = $breadcrumbs[$current_page][1];
+}
+
+// 2. System Alerts Logic
 $system_alerts = [];
 
 if (isset($conn)) {
@@ -80,7 +100,7 @@ $total_admin_notifs = count($system_alerts);
     .notif-dropdown {
         position: absolute;
         top: 100%;
-        right: -10px;
+        right: 0;
         margin-top: 15px;
         width: 320px;
         background: var(--bg-card);
@@ -169,21 +189,26 @@ $total_admin_notifs = count($system_alerts);
     }
 </style>
 
-<header class="main-header">
+<header class="main-header print-hide">
     <div class="header-left">
-        <div class="header-search">
-            <span class="search-icon"><i class="ph ph-magnifying-glass"></i></span>
-            <input type="text" placeholder="Search accounts, reports..." class="search-input">
+        <button class="mobile-menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('active'); document.getElementById('sidebarOverlay').classList.toggle('active');">
+            <i class="ph ph-list"></i>
+        </button>
+
+        <div class="header-breadcrumb hide-mobile">
+            <span class="bc-parent"><?php echo $parent; ?></span>
+            <i class="ph ph-caret-right"></i>
+            <span class="bc-active"><?php echo $child; ?></span>
         </div>
     </div>
 
     <div class="header-right">
-        <div class="header-date">
-            <span class="date-icon"><i class="ph ph-calendar-blank"></i></span>
-            <?php echo date('F d, Y'); ?>
+        <div class="header-date hide-mobile">
+            <i class="ph ph-clock date-icon"></i>
+            <span id="liveDateTime"><?php echo date("M d, Y • h:i A"); ?></span>
         </div>
 
-        <div class="header-divider"></div>
+        <div class="header-divider hide-mobile"></div>
 
         <div class="notif-wrapper">
             <button class="icon-btn" id="notifButton" title="System Notifications" aria-label="Notifications">
@@ -208,7 +233,6 @@ $total_admin_notifs = count($system_alerts);
                             <p>All systems operational.<br>No active alerts.</p>
                         </div>
                     <?php else: ?>
-
                         <?php foreach ($system_alerts as $alert): ?>
                             <a href="<?php echo $alert['link']; ?>" class="notif-item">
                                 <div class="notif-icon" style="background: <?php echo $alert['bg']; ?>; color: <?php echo $alert['color']; ?>;">
@@ -220,22 +244,19 @@ $total_admin_notifs = count($system_alerts);
                                 </div>
                             </a>
                         <?php endforeach; ?>
-
                     <?php endif; ?>
                 </div>
             </div>
         </div>
 
-        <button class="icon-btn" title="Settings" aria-label="Settings">
-            <i class="ph ph-gear"></i>
-        </button>
-
-        <div class="header-divider"></div>
+        <div class="header-divider hide-mobile"></div>
 
         <div class="user-pill">
-            <div class="user-avatar" style="background: #1e293b; color: white;">AD</div>
-            <div class="user-meta">
-                <span class="user-name">Administrator</span>
+            <div class="user-avatar">
+                <?php echo isset($_SESSION['name']) ? strtoupper(substr($_SESSION['name'], 0, 1)) : 'A'; ?>
+            </div>
+            <div class="user-meta hide-mobile">
+                <span class="user-name"><?php echo htmlspecialchars($_SESSION['name'] ?? 'Administrator'); ?></span>
                 <span class="user-status">Online</span>
             </div>
         </div>
@@ -243,6 +264,24 @@ $total_admin_notifs = count($system_alerts);
 </header>
 
 <script>
+    // Live Clock Logic
+    function updateLiveTime() {
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        });
+        const timeStr = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        const timeEl = document.getElementById('liveDateTime');
+        if (timeEl) timeEl.textContent = `${dateStr} • ${timeStr}`;
+    }
+    setInterval(updateLiveTime, 1000);
+    updateLiveTime();
+
     // Toggle Notification Dropdown Logic
     document.addEventListener("DOMContentLoaded", function() {
         const notifBtn = document.getElementById('notifButton');

@@ -1,6 +1,8 @@
 <?php
 // Mark this page as a subfolder route for include path handling.
 $is_subfolder = true;
+$breadcrumb_parent = 'Patient Database';
+$breadcrumb_child = 'Register New Patient';
 require_once '../../config/db_connect.php';
 require_once '../../config/auth_check.php';
 ?>

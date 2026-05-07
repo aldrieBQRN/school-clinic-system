@@ -207,6 +207,13 @@ try {
             margin-bottom: 20px;
         }
 
+        /* Mobile: stack detail grid */
+        @media (max-width: 767px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .detail-item label {
             display: block;
             font-size: 11px;
@@ -363,7 +370,8 @@ try {
             }
         }
 
-        @media (max-width: 768px) {
+        /* Mobile (phones only; tablet keeps table) */
+        @media (max-width: 767px) {
             .data-table {
                 min-width: 100%;
             }
@@ -375,7 +383,7 @@ try {
             .data-table tbody tr {
                 display: block;
                 background: var(--bg-card);
-                margin: 15px;
+                margin: 0 0 16px 0;
                 border-radius: 12px;
                 padding: 15px 15px 5px 15px;
                 border: 1px solid var(--border);
@@ -499,7 +507,7 @@ try {
                                                         <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-top: 4px;"><?php echo date("h:i A", strtotime($row['record_date'])); ?></div>
                                                     </td>
                                                     <td data-label="Actions" class="text-right action-col">
-                                                        <button class="action-btn" title="View Details" style="border-radius: 8px;" onclick='viewRecord(<?php echo htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>, "<?php echo $f_rec_id; ?>", "VST-<?php echo str_pad($row['visit_id'], 4, "0", STR_PAD_LEFT); ?>", "<?php echo $f_stu_id; ?>")'>
+                                                        <button type="button" class="action-btn" title="View Details" style="border-radius: 8px;" onclick='viewRecord(<?php echo htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>, "<?php echo $f_rec_id; ?>", "VST-<?php echo str_pad($row['visit_id'], 4, "0", STR_PAD_LEFT); ?>", "<?php echo $f_stu_id; ?>")'>
                                                             <i class="ph ph-eye" style="font-size: 18px;"></i>
                                                         </button>
                                                     </td>
@@ -542,9 +550,12 @@ try {
                 <button class="modal-close" onclick="closeModal('recordModal')" title="Close">&times;</button>
             </div>
             <div class="modal-body">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--bg-card); padding: 12px 16px; border-radius: var(--r-sm); border: 1px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--bg-card); padding: 12px 16px; border-radius: var(--r-sm); border: 1px solid var(--border); gap: 16px;">
                     <div><span class="date-label">Record ID</span>
                         <div id="m-rec-id" style="font-weight: 700; color: var(--text-heading); font-family: monospace;"></div>
+                    </div>
+                    <div><span class="date-label">Student ID</span>
+                        <div id="m-stu-id" style="font-weight: 700; color: var(--text-heading); font-family: monospace;"></div>
                     </div>
                     <div style="text-align: right;"><span class="date-label">Date Logged</span>
                         <div id="m-date" style="font-size: 13px; font-weight: 500; color: var(--text-heading);"></div>
@@ -593,8 +604,14 @@ try {
             return num + "th";
         }
 
+        function setModalText(id, value) {
+            const element = document.getElementById(id);
+            if (element) element.innerText = value;
+        }
+
         function viewRecord(data, recId, visId, stuId) {
-            document.getElementById('m-rec-id').innerText = recId;
+            setModalText('m-rec-id', recId);
+            setModalText('m-stu-id', stuId);
 
             // Format datetime cleanly for the modal
             let dtObj = new Date(data.record_date);
@@ -606,27 +623,28 @@ try {
                 hour: '2-digit',
                 minute: '2-digit'
             });
-            document.getElementById('m-date').innerText = formattedDateStr;
-            document.getElementById('m-name').innerText = data.first_name + ' ' + data.last_name;
-            document.getElementById('m-stu-id').innerText = stuId;
-            document.getElementById('m-course').innerText = data.course + ' - ' + getOrdinal(data.year_level) + ' Year';
-            document.getElementById('m-temp').innerText = data.temperature + ' °C';
+            setModalText('m-date', formattedDateStr);
+            setModalText('m-name', data.first_name + ' ' + data.last_name);
+            setModalText('m-course', data.course + ' - ' + getOrdinal(data.year_level) + ' Year');
+            setModalText('m-temp', data.temperature + ' °C');
 
             let timeInObj = new Date('1970-01-01T' + data.time_in + 'Z');
-            document.getElementById('m-time').innerText = timeInObj.toLocaleTimeString('en-US', {
+            setModalText('m-time', timeInObj.toLocaleTimeString('en-US', {
                 hour: '2-digit',
                 minute: '2-digit',
                 timeZone: 'UTC'
-            });
+            }));
 
-            document.getElementById('m-diagnosis').innerText = data.diagnosis;
-            document.getElementById('m-treatment').innerText = data.treatment;
+            setModalText('m-diagnosis', data.diagnosis);
+            setModalText('m-treatment', data.treatment);
 
-            document.getElementById('recordModal').classList.add('active');
+            const modal = document.getElementById('recordModal');
+            if (modal) modal.classList.add('active');
         }
 
         function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
+            const modal = document.getElementById(id);
+            if (modal) modal.classList.remove('active');
         }
 
         // Close on outside click

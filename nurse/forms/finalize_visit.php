@@ -1,5 +1,7 @@
 <?php
 $is_subfolder = true;
+$breadcrumb_parent = 'Triage & Queue';
+$breadcrumb_child = 'Finalize Consultation';
 require_once '../../config/db_connect.php';
 require_once '../../config/auth_check.php';
 
@@ -166,16 +168,9 @@ elseif ($temp >= 37.3) $badge_style = 'badge-warn" style="background:#FEF3C7; co
                                     <span style="display: block; font-size: 14px; font-weight: 500; color: var(--text-heading);"><?php echo $time_in; ?></span>
                                 </div>
 
-                                <!-- Editable chief complaint with autocomplete -->
                                 <div>
                                     <span style="display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Chief Complaint</span>
-                                    <div class="autocomplete-wrapper">
-                                        <div style="position: relative;">
-                                            <i class="ph ph-magnifying-glass" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px;"></i>
-                                            <input type="text" id="complaintInput" name="complaint" value="<?php echo htmlspecialchars($visit['complaint']); ?>" required autocomplete="off" style="width: 100%; padding: 8px 12px 8px 30px; background: #fff; border: 1px solid var(--border); border-radius: 6px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; color: var(--brand-primary); transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
-                                        </div>
-                                        <div id="complaintSuggestions" class="suggestions-list"></div>
-                                    </div>
+                                    <span style="display: block; font-size: 14px; font-weight: 500; color: var(--text-heading);"><?php echo htmlspecialchars($visit['complaint']); ?></span>
                                 </div>
 
                                 <div>
@@ -379,7 +374,6 @@ elseif ($temp >= 37.3) $badge_style = 'badge-warn" style="background:#FEF3C7; co
 
         // Initialize autocomplete inputs.
         setupAutocomplete('diagnosisInput', 'diagnosisSuggestions', diagnosesData, 'ph ph-activity');
-        setupAutocomplete('complaintInput', 'complaintSuggestions', complaintsData, 'ph ph-clock-counter-clockwise');
     </script>
     <script src="../../assets/js/script.js"></script>
 </body>

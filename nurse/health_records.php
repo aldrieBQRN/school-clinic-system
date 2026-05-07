@@ -219,6 +219,13 @@ try {
             margin-bottom: 20px;
         }
 
+        /* Mobile: stack detail grid */
+        @media (max-width: 767px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .detail-item label {
             display: block;
             font-size: 11px;
@@ -462,8 +469,8 @@ try {
             background-color: var(--brand-primary) !important;
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
+        /* Mobile Responsiveness (phones only; tablet keeps table) */
+        @media (max-width: 767px) {
             .data-table {
                 min-width: 100%;
             }
@@ -475,7 +482,7 @@ try {
             .data-table tbody tr {
                 display: block;
                 background: var(--bg-card);
-                margin: 15px;
+                margin: 0 0 16px 0;
                 border-radius: 12px;
                 padding: 15px 15px 5px 15px;
                 border: 1px solid var(--border);

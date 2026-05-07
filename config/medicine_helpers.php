@@ -5,12 +5,7 @@
  * Shared logic for medicine inventory status.
  */
 
-/**
- * Determine the inventory status label for a medicine.
- *
- * @param int $quantity Current quantity in stock.
- * @return string One of: In Stock, Low Stock, Critical, or Out of Stock.
- */
+
 function getMedicineStatus($quantity)
 {
     $status = 'In Stock';

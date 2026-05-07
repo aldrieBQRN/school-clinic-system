@@ -467,6 +467,18 @@ $icon = [
             box-shadow: 0 0 0 3px var(--brand-glow);
         }
 
+        /* Hide native browser password controls so only the custom eye icon shows. */
+        .input-wrapper input[type="password"]::-ms-reveal,
+        .input-wrapper input[type="password"]::-ms-clear,
+        .input-wrapper input[type="password"]::-webkit-credentials-auto-fill-button,
+        .input-wrapper input[type="password"]::-webkit-textfield-decoration-container,
+        .input-wrapper input[type="password"]::-webkit-strong-password-auto-fill-button {
+            display: none !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            opacity: 0 !important;
+        }
+
         .input-wrapper input::placeholder {
             color: var(--text-xmuted);
             opacity: 1;

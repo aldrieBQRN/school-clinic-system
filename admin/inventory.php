@@ -333,8 +333,8 @@ try {
             }
         }
 
-        /* Mobile App Card Layout */
-        @media (max-width: 768px) {
+        /* Mobile App Card Layout (phones only; tablet keeps table) */
+        @media (max-width: 767px) {
             .data-table {
                 min-width: 100%;
             }
@@ -346,7 +346,7 @@ try {
             .data-table tbody tr {
                 display: block;
                 background: var(--bg-card);
-                margin: 15px;
+                margin: 0 0 16px 0;
                 border-radius: 12px;
                 padding: 15px 15px 5px 15px;
                 border: 1px solid var(--border);

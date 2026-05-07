@@ -506,7 +506,6 @@ admin_header.php         # Admin navigation header with user menu
 admin_sidebar.php        # Admin sidebar with menu options
 nurse_header.php         # Nurse navigation header with notifications
 nurse_sidebar.php        # Nurse sidebar with menu options
-footer.php               # Common footer with copyright info
 ```
 
 ### Assets (`/assets/`)

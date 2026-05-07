@@ -399,8 +399,8 @@ try {
             color: var(--brand-primary);
         }
 
-        /* Mobile App Card Layout */
-        @media (max-width: 768px) {
+        /* Mobile App Card Layout (phones only; tablet keeps table) */
+        @media (max-width: 767px) {
             .data-table {
                 min-width: 100%;
             }
@@ -412,7 +412,7 @@ try {
             .data-table tbody tr {
                 display: block;
                 background: var(--bg-card);
-                margin: 15px;
+                margin: 0 0 16px 0;
                 border-radius: 12px;
                 padding: 15px 15px 5px 15px;
                 border: 1px solid var(--border);
@@ -567,7 +567,7 @@ try {
                                                         <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-top: 4px;"><?php echo date("h:i A", strtotime($row['time_in'])); ?></div>
                                                     </td>
                                                     <td data-label="Actions" class="text-right action-col">
-                                                        <button class="action-btn" title="View Details" onclick='viewVisit(<?php echo $json_data; ?>, "<?php echo $formatted_visit_id; ?>", "<?php echo $formatted_student_id; ?>")'>
+                                                        <button type="button" class="action-btn" title="View Details" onclick='viewVisit(<?php echo $json_data; ?>, "<?php echo $formatted_visit_id; ?>", "<?php echo $formatted_student_id; ?>")'>
                                                             <i class="ph ph-eye" style="font-size: 18px;"></i>
                                                         </button>
                                                     </td>
@@ -610,10 +610,14 @@ try {
                 <button class="modal-close" onclick="closeModal('viewVisitModal')" title="Close">&times;</button>
             </div>
             <div class="modal-body">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--bg-card); padding: 12px 16px; border-radius: var(--r-sm); border: 1px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--bg-card); padding: 12px 16px; border-radius: var(--r-sm); border: 1px solid var(--border); gap: 16px;">
                     <div>
                         <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Visit ID</span>
                         <div id="v-vis-id" style="font-weight: 700; color: var(--text-heading); font-family: monospace;"></div>
+                    </div>
+                    <div>
+                        <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Student ID</span>
+                        <div id="v-stu-id" style="font-weight: 700; color: var(--text-heading); font-family: monospace;"></div>
                     </div>
                     <div style="text-align: right;">
                         <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Date & Time In</span>
@@ -668,11 +672,18 @@ try {
         document.querySelector('a[href="visit_log.php"]').classList.add('active');
 
         function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
+            const modal = document.getElementById(id);
+            if (modal) modal.classList.remove('active');
+        }
+
+        function setModalText(id, value) {
+            const element = document.getElementById(id);
+            if (element) element.innerText = value;
         }
 
         function viewVisit(data, visId, stuId) {
-            document.getElementById('v-vis-id').innerText = visId;
+            setModalText('v-vis-id', visId);
+            setModalText('v-stu-id', stuId);
 
             // Format time correctly in the modal
             let timeObj = new Date('1970-01-01T' + data.time_in + 'Z');
@@ -681,11 +692,11 @@ try {
                 minute: '2-digit',
                 timeZone: 'UTC'
             });
-            document.getElementById('v-date').innerText = new Date(data.date_logged).toLocaleDateString('en-US', {
+            setModalText('v-date', new Date(data.date_logged).toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric'
-            }) + " • " + formattedTime;
+            }) + " • " + formattedTime);
 
             // Convert number to ordinal format
             function getOrdinal(num) {
@@ -697,21 +708,22 @@ try {
                 return num + "th";
             }
 
-            document.getElementById('v-name').innerText = data.first_name + ' ' + data.last_name;
-            document.getElementById('v-stu-id').innerText = stuId;
-            document.getElementById('v-course').innerText = data.course + ' - ' + getOrdinal(data.year_level) + ' Year';
-            document.getElementById('v-complaint').innerText = data.complaint;
-            document.getElementById('v-temp').innerText = data.temperature + ' °C';
-            document.getElementById('v-height').innerText = data.height ? data.height + ' cm' : '--';
-            document.getElementById('v-weight').innerText = data.weight ? data.weight + ' kg' : '--';
-            document.getElementById('v-nurse-notes').innerText = data.nurse_notes ? '"' + data.nurse_notes + '"' : 'No initial notes.';
+            setModalText('v-name', data.first_name + ' ' + data.last_name);
+            setModalText('v-course', data.course + ' - ' + getOrdinal(data.year_level) + ' Year');
+            setModalText('v-complaint', data.complaint);
+            setModalText('v-temp', data.temperature + ' °C');
+            setModalText('v-height', data.height ? data.height + ' cm' : '--');
+            setModalText('v-weight', data.weight ? data.weight + ' kg' : '--');
+            setModalText('v-nurse-notes', data.nurse_notes ? '"' + data.nurse_notes + '"' : 'No initial notes.');
 
             let statusHtml = data.status === 'Completed' ?
                 '<span class="badge badge-green">Completed</span>' :
                 '<span class="badge badge-warn" style="background:#FEF3C7; color:#D97706;">Active (In Queue)</span>';
-            document.getElementById('v-status').innerHTML = statusHtml;
+            const statusEl = document.getElementById('v-status');
+            if (statusEl) statusEl.innerHTML = statusHtml;
 
-            document.getElementById('viewVisitModal').classList.add('active');
+            const modal = document.getElementById('viewVisitModal');
+            if (modal) modal.classList.add('active');
         }
 
         window.onclick = function(e) {

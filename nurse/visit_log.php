@@ -140,7 +140,6 @@ try {
             transform: translateY(20px);
             transition: transform 0.2s ease-in-out;
             overflow: visible;
-            max-height: 90vh;
         }
 
         .modal-overlay.active .modal-box {
@@ -193,8 +192,7 @@ try {
 
         .modal-body {
             padding: 24px;
-            max-height: 65vh;
-            overflow-y: auto;
+            overflow: visible;
         }
 
         .modal-footer {
@@ -477,8 +475,8 @@ try {
             background-color: var(--brand-primary) !important;
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
+        /* Mobile Responsiveness (phones only; tablet keeps table) */
+        @media (max-width: 767px) {
             .data-table {
                 min-width: 100%;
             }
@@ -490,7 +488,7 @@ try {
             .data-table tbody tr {
                 display: block;
                 background: var(--bg-card);
-                margin: 15px;
+                margin: 0 0 16px 0;
                 border-radius: 12px;
                 padding: 15px 15px 5px 15px;
                 border: 1px solid var(--border);
@@ -691,7 +689,7 @@ try {
                 </div>
 
                 <div class="section-tag" style="margin-top: 0;">Patient Information</div>
-                <div class="detail-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+                <div class="detail-grid detail-grid-3">
                     <div class="detail-item"><label>Student Name</label>
                         <p id="v-name"></p>
                     </div>
@@ -762,7 +760,7 @@ try {
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div class="form-grid-3" style="margin-bottom: 15px;">
                         <div class="form-group" style="margin: 0;">
                             <label style="display: block; font-size: 12px; font-weight: 700; color: var(--text-body); text-transform: uppercase; margin-bottom: 8px;">Temp (°C)</label>
                             <input type="number" name="temperature" id="edit_temp" step="0.1" required style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 14px;">

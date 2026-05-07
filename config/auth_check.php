@@ -6,9 +6,6 @@
  * Enforce authentication and simple role-based access control for pages
  * under `/admin/` and `/nurse/`. Redirects unauthenticated users.
  *
- * @package KCCF Clinic System
- * @author Dev
- * @since 2024-01-01
  */
 
 if (session_status() === PHP_SESSION_NONE) {
