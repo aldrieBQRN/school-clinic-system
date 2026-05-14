@@ -48,6 +48,8 @@ if (isset($conn)) {
     }
 </style>
 
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="document.querySelector('.sidebar').classList.remove('active'); this.classList.remove('active');"></div>
+
 <aside class="sidebar">
     <div class="sidebar-header">
         <div class="sidebar-logo-wrap">

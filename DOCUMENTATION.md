@@ -1,10 +1,10 @@
 # KCCF School Clinic System - Complete Documentation
 
-**Document Version:** 1.0
+**Document Version:** 1.1
 
 **Date:** May 4, 2026
 
-**Last Updated:** May 4, 2026
+**Last Updated:** May 8, 2026
 
 **Client:** Kurios Christian Colleges Foundation
 
@@ -326,7 +326,7 @@ CREATE TABLE health_records (
 ### Medicines Table
 ```sql
 CREATE TABLE medicines (
-  medicine_id INT PRIMARY KEY AUTO_INCREMENT,
+  med_id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(100) NOT NULL,
   category VARCHAR(50),
   quantity INT DEFAULT 0,
@@ -388,8 +388,8 @@ CREATE TABLE medicines (
 - **Logout:** Secure session termination
 
 ### 2. Dashboard
-- **Admin Dashboard:** Overview of clinic statistics, user count, recent visits
-- **Nurse Dashboard:** Active patient queue, medicine alerts, quick actions
+- **Admin Dashboard:** Overview of clinic statistics, user count, recent visits, and low-stock medicine totals
+- **Nurse Dashboard:** Active patient queue, finalized consultation count, medicine alerts, and quick actions
 
 ### 3. Student Management
 - **Student Registration:** Add new students with course & year level
@@ -412,7 +412,7 @@ CREATE TABLE medicines (
 ### 6. Medicine Inventory
 - **Add Medicines:** Stock new medicine items
 - **Track Inventory:** Real-time quantity tracking
-- **Stock Alerts:** Low stock and expiration warnings
+- **Stock Alerts:** Low stock alerts and expiration warnings
 - **Restock Operations:** Update quantities
 - **Delete Obsolete:** Remove expired items
 
@@ -520,7 +520,7 @@ images/logo.jpg          # KCCF school logo
 ## Admin Features
 
 ### Dashboard
-- System statistics (total students, users, recent visits)
+- System statistics (total students, users, recent visits, low-stock medicines)
 - Quick navigation to main functions
 - User greeting with current date/time
 
@@ -541,7 +541,7 @@ images/logo.jpg          # KCCF school logo
 
 ### Inventory Management
 - **Track Stock:** Real-time quantity updates
-- **Alerts:** Low stock (<5 units) and expiration warnings
+- **Alerts:** Admin dashboard summary counts low stock at <=10, while nurse/admin alerts use <=5 and expiration warnings
 - **Status:** In Stock, Low Stock, Out of Stock
 - **Operations:** Add, Edit, Delete, Restock
 - **Export:** Inventory report to PDF
@@ -572,7 +572,8 @@ images/logo.jpg          # KCCF school logo
 
 ### Dashboard
 - **Active Queue:** Real-time list of patients waiting
-- **Alerts:** Low medicine stock warnings
+- **Finalized Consultations:** Shows today's completed health records count
+- **Alerts:** Low medicine stock warnings using the current <=5 threshold
 - **Quick Actions:** Buttons to register student or log visit
 - **Notifications:** Medicine expiration alerts
 
@@ -602,7 +603,7 @@ images/logo.jpg          # KCCF school logo
 - **Filter:** By course and date range
 - **Pagination:** 10 records per page
 - **View Details:** Modal with complete record
-- **Vitals Display:** Temperature with color-coded status
+- **Vitals Display:** Temperature with color-coded status, plus height and weight in the details modal
 
 ### Student Records
 - **Directory:** Browse all registered students
@@ -689,15 +690,15 @@ POST /backend/nurse/process_add_medicine.php
   Output: Success/Error
 
 POST /backend/nurse/process_update_medicine.php
-  Input: medicine_id, name, category, quantity, status, expiration
+  Input: med_id, name, category, quantity, status, expiration
   Output: Success/Error
 
 POST /backend/nurse/process_delete_medicine.php
-  Input: medicine_id
+  Input: med_id
   Output: Success/Error
 
 POST /backend/nurse/process_restock_medicine.php
-  Input: medicine_id, quantity
+  Input: med_id, quantity
   Output: Success/Error
 ```
 
@@ -914,4 +915,4 @@ Check PHP error log:
 **End of Documentation**
 
 *This document is confidential and intended for authorized personnel only.*
-*Last Updated: May 4, 2026*
+*Last Updated: May 8, 2026*

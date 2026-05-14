@@ -50,15 +50,32 @@ FROM visits
 WHERE date_logged = CURRENT_DATE;
 ```
 
-### 3.3 Critical stock count
+Defense note:
+- Used on the admin dashboard to count visits logged today.
+
+### 3.3 Today's consultation count
+
+```sql
+SELECT COUNT(*) AS todays_consultations
+FROM health_records
+WHERE DATE(date) = CURDATE();
+```
+
+Defense note:
+- Used on the nurse dashboard to count finalized consultations for the current day.
+
+### 3.4 Critical stock count
 
 ```sql
 SELECT COUNT(*) AS critical_medicines
 FROM medicines
-WHERE quantity <= 10;
+WHERE quantity <= 5;
 ```
 
-### 3.4 Recent clinic activity
+Defense note:
+- This matches the current nurse/admin alert threshold for critical stock notifications.
+
+### 3.5 Recent clinic activity
 
 ```sql
 SELECT
@@ -356,6 +373,39 @@ WHERE diagnosis IS NOT NULL AND diagnosis != ''
 GROUP BY diagnosis
 ORDER BY MAX(record_id) DESC
 LIMIT 50;
+```
+
+### 9.4 Nurse dashboard notifications
+
+```sql
+SELECT v.time_in, s.first_name, s.last_name
+FROM visits v
+JOIN students s ON v.student_id = s.student_id
+WHERE v.status = 'Active'
+ORDER BY v.time_in ASC
+LIMIT 3;
+```
+
+```sql
+SELECT name, quantity
+FROM medicines
+WHERE quantity <= 5
+ORDER BY quantity ASC
+LIMIT 3;
+```
+
+### 9.5 Admin dashboard alerts
+
+```sql
+SELECT COUNT(*) FROM medicines WHERE quantity <= 5;
+```
+
+```sql
+SELECT COUNT(*) FROM visits WHERE DATE(date_logged) = CURDATE();
+```
+
+```sql
+SELECT COUNT(*) FROM visits WHERE status = 'Active';
 ```
 
 ## 10. Example Queries With Actual Values

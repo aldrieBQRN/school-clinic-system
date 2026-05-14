@@ -666,6 +666,12 @@ try {
                     <div class="detail-item"><label>Temp</label>
                         <p id="m-temp"></p>
                     </div>
+                    <div class="detail-item"><label>Height</label>
+                        <p id="m-height"></p>
+                    </div>
+                    <div class="detail-item"><label>Weight</label>
+                        <p id="m-weight"></p>
+                    </div>
                     <div class="detail-item"><label>Time In</label>
                         <p id="m-time"></p>
                     </div>
@@ -753,6 +759,8 @@ try {
             document.getElementById('m-stu-id').innerText = stuId;
             document.getElementById('m-course').innerText = data.course + ' - ' + getOrdinal(data.year_level) + ' Year';
             document.getElementById('m-temp').innerText = data.temperature + ' °C';
+            document.getElementById('m-height').innerText = data.height ? data.height + ' cm' : '--';
+            document.getElementById('m-weight').innerText = data.weight ? data.weight + ' kg' : '--';
 
             let timeInObj = new Date('1970-01-01T' + data.time_in + 'Z');
             document.getElementById('m-time').innerText = timeInObj.toLocaleTimeString('en-US', {

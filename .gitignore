@@ -31,3 +31,12 @@ build/
 # Temp files
 *.tmp
 *.swp
+
+# Documentation and seed files
+DOCUMENTATION.pdf
+DATABASE_QUERY_GUIDE.pdf
+seed.txt
+project_structure.txt
+DOCUMENTATION.md
+database_structure.txt
+DATABASE_QUERY_GUIDE.md
